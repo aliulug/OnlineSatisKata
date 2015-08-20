@@ -48,8 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISanalPosVekili.cs" />
+    <Compile Include="ISmsYoneticisi.cs" />
+    <Compile Include="IUrunDepoYoneticisi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SatisHataTipi.cs" />
+    <Compile Include="SatisMotoru.cs" />
     <Compile Include="SatisMotoruTest.cs" />
+    <Compile Include="SatisSonucu.cs" />
+    <Compile Include="SiparisBilgileri.cs" />
+    <Compile Include="SmsOnayKodu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
