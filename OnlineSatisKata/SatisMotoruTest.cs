@@ -11,30 +11,35 @@ namespace OnlineSatisKata
 	[TestFixture]
 	class SatisMotoruTest
 	{
+		private IUrunDepoYoneticisi _depoYoneticisi;
+		private SatisMotoru _satisMotoru;
+		private SiparisBilgileri _siparisBilgileri;
+
+		[SetUp]
+		public void test_ilk_ayarlar()
+		{
+			_depoYoneticisi = Substitute.For<IUrunDepoYoneticisi>();
+			_satisMotoru = new SatisMotoru(_depoYoneticisi);
+			_siparisBilgileri = new SiparisBilgileri();
+		}
+
 		[Test]
 		public void satis_yapildiginda_urun_bloklanir()
 		{
-			IUrunDepoYoneticisi depoYoneticisi = Substitute.For<IUrunDepoYoneticisi>();
-			SatisMotoru satisMotoru = new SatisMotoru(depoYoneticisi);
-			SiparisBilgileri siparisBilgileri = new SiparisBilgileri();
-			satisMotoru.SatisYap(siparisBilgileri);
+			_satisMotoru.SatisYap(_siparisBilgileri);
 
-			depoYoneticisi.Received().UrunBlokla(siparisBilgileri);
+			_depoYoneticisi.Received().UrunBlokla(_siparisBilgileri);
 		}
 
 		[Test]
 		public void satista_urun_bloklanamassa_hata_doner()
 		{
-			IUrunDepoYoneticisi depoYoneticisi = Substitute.For<IUrunDepoYoneticisi>();
-			SatisMotoru satisMotoru = new SatisMotoru(depoYoneticisi);
-			SiparisBilgileri siparisBilgileri = new SiparisBilgileri();
-			depoYoneticisi.UrunBlokla(siparisBilgileri).Returns(false);
+			_depoYoneticisi.UrunBlokla(_siparisBilgileri).Returns(false);
 
-			SatisSonucu satisSonucu = satisMotoru.SatisYap(siparisBilgileri);
+			SatisSonucu satisSonucu = _satisMotoru.SatisYap(_siparisBilgileri);
 
 			Assert.AreEqual(SatisHataTipi.UrunStoktaYok, satisSonucu.HataTipi);
 			Assert.IsFalse(satisSonucu.SatisBasarili);
-
 		}
 	}
 
